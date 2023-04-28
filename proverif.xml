@@ -104,6 +104,9 @@
         <!-- Injective event -->
         <StringDetect String="inj-event" context="#stay" attribute="Event" />
         
+        <!-- Distinguish "in" keyword -->
+        <RegExpr String="(in)([ ]*\()" context="Input" lookAhead="true" />
+        
         <!-- Identifiers and keywords. -->
         <keyword String="Definitions"             context="#stay" attribute="Definition" />
         <keyword String="Properties"              context="#stay" attribute="Property" />
@@ -111,8 +114,8 @@
         <keyword String="Equations"               context="#stay" attribute="Equation" />
         <keyword String="Reductions"              context="#stay" attribute="Reduction" />
         <keyword String="Modifiers"               context="#stay" attribute="Modifier" />
-        <keyword String="IOs"                     context="#stay" attribute="IO" />
         <keyword String="Keywords"                context="#stay" attribute="Keyword" />
+        <keyword String="IOs"                     context="#stay" attribute="IO" />
         <keyword String="CryptoVerif Keywords"    context="#stay" attribute="CryptoVerif Keyword" />
         <keyword String="CryptoVerif Unsupported Keywords"    context="#stay" attribute="CryptoVerif Unsupported Keyword" />
         
@@ -152,7 +155,12 @@
       
       <context name="FunctionName" attribute="Operator" lineEndContext="#pop">
         <StringDetect context="#stay" attribute="Function" String="%1" dynamic="true"/>
-        <DetectChar context="#pop" attribute="Normal Text" char="2" dynamic="true"/>
+        <DetectChar context="#pop" attribute="Operator" char="2" dynamic="true"/>
+      </context>
+      
+      <context name="Input" attribute="Operator" lineEndContext="#pop">
+        <StringDetect context="#stay" attribute="IO" String="%1" dynamic="true"/>
+        <DetectChar context="#pop" attribute="Operator" char="2" dynamic="true"/>
       </context>
       
       <context name="String" lineEndContext="#stay" attribute="String">
@@ -302,7 +310,7 @@
       <itemData name="Reduction"                defStyleNum="dsString"   bold="true" />
       <itemData name="Function"                 defStyleNum="dsFunction" />
       <itemData name="Modifier"                 defStyleNum="dsOperator" bold="true" />
-      <itemData name="IO"                       defStyleNum="dsBaseN"    bold="true" italic="true" />
+      <itemData name="IO"                       defStyleNum="dsBuiltIn"  />
       <itemData name="Type"                       defStyleNum="dsComment"  italic="true" />
       <itemData name="Lowercase Identifier"     defStyleNum="dsNormal"   />
       <itemData name="Uppercase Identifier"     defStyleNum="dsNormal"   italic="true" />
