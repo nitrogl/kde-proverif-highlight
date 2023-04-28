@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Kate syntax highlighting for the Applied Pi-Calculus in ProVerif, enriched with Ocaml doc. -->
+<!-- Based on the Objective Caml syntax file                                                    -->
+
+<!DOCTYPE language
+[
+<!-- Regular expresion constants: -->
+<!ENTITY LOWER  "a-z\300-\326\330-\337">         <!-- Lowercase Latin-1 letters. -->
+<!ENTITY UPPER  "A-Z\340-\366\370-\377">         <!-- Uppercase Latin-1 letters. -->
+<!ENTITY LETTER "&LOWER;&UPPER;">                <!-- All Latin-1 letters. -->
+<!ENTITY LIDENT "[&LOWER;_][&LETTER;0-9_']*">    <!-- Lowercase OCaml identifiers. -->
+<!ENTITY UIDENT "`?[&UPPER;][&LETTER;0-9_']*">   <!-- Uppercase OCaml identifiers. -->
+<!ENTITY IDENT  "`?[&LETTER;][&LETTER;0-9_']*">  <!-- All OCaml identifiers. -->
+<!ENTITY ESC    "(\\[ntbr'&quot;\\]|\\[0-9]{3}|\\x[0-9A-Fa-f]{2})"> <!-- OCaml character code escapes. -->
+<!ENTITY DEC    "[0-9][0-9_]*">                                     <!-- Decimal digits with underscores. -->
+]>
+<language name="ProVerif"
+          extensions="*.pv"
+          mimetype="text/x-proverif"
+          section="Sources"
+          version="10"
+          priority="10"
+          kateversion="5.79"
+          author="Roberto Metere (roberto@metere.it)"
+          license="LGPL" >
+  
+  <highlighting>
+    <list name="Definitions">
+      <item>free</item>
+      <item>type</item>
+      <item>set</item>
+      <item>const</item>
+      <item>fun</item>
+      <item>table</item>
+    </list>
+    <list name="Events">
+      <item>event</item>
+    </list>
+    <list name="Properties">
+      <item>query</item>
+      <item>attacker</item>
+      <item>not</item>
+      <item>mess</item>
+      <item>noninterf</item>
+      <item>secret</item>
+      <item>weaksecret</item>
+      <item>choice</item>
+    </list>
+    <list name="Equations">
+      <item>axiom</item>
+      <item>lemma</item>
+      <item>equation</item>
+    </list>
+    <list name="Reductions">
+      <item>reduc</item>
+    </list>
+    <list name="Keywords">
+      <item>process</item>
+      <item>fail</item>
+      <item>if</item>
+      <item>then</item>
+      <item>else</item>
+      <item>insert</item>
+      <item>let</item>
+      <item>suchthat</item>
+      <item>in</item>
+      <item>new</item>
+      <item>forall</item>
+      <item>otherwise</item>
+      <item>phase</item>
+      <item>sync</item>
+    </list>
+    <list name="IOs">
+      <item>get</item>
+      <item>in</item>
+      <item>out</item>
+    </list>
+    <list name="Modifiers">
+      <item>select</item>
+      <item>noselect</item>
+    </list>
+    <list name="CryptoVerif Keywords">
+      <item>yield</item>
+    </list>
+    <list name="CryptoVerif Unsupported Keywords">
+      <item>find</item>
+    </list>
+    
+    
+    <contexts>
+      
+      <context name="Code" lineEndContext="#stay" attribute="Operator">
+        
+        <!-- Comments. -->
+        <!-- A (** begins a special comment with Ocamldoc documentation markup. -->
+        <StringDetect String="(**)"      context="#stay"    attribute="Comment" />
+        <StringDetect String="(**"       context="Ocamldoc" attribute="Comment" beginRegion="comment" />
+        <Detect2Chars char="(" char1="*" context="Comment"  attribute="Comment" beginRegion="comment" />
+        
+        <!-- String and character                                             -->
+        <DetectChar char="&quot;" context="String" attribute="String" />
+        <RegExpr String="'(&ESC;|[^'])'" context="#stay" attribute="Character" />
+        
+        <!-- Injective event -->
+        <StringDetect String="inj-event" context="#stay" attribute="Event" />
+        
+        <!-- Identifiers and keywords. -->
+        <keyword String="Definitions"             context="#stay" attribute="Definition" />
+        <keyword String="Properties"              context="#stay" attribute="Property" />
+        <keyword String="Events"                  context="#stay" attribute="Event" />
+        <keyword String="Equations"               context="#stay" attribute="Equation" />
+        <keyword String="Reductions"              context="#stay" attribute="Reduction" />
+        <keyword String="Modifiers"               context="#stay" attribute="Modifier" />
+        <keyword String="IOs"                     context="#stay" attribute="IO" />
+        <keyword String="Keywords"                context="#stay" attribute="Keyword" />
+        <keyword String="CryptoVerif Keywords"    context="#stay" attribute="CryptoVerif Keyword" />
+        <keyword String="CryptoVerif Unsupported Keywords"    context="#stay" attribute="CryptoVerif Unsupported Keyword" />
+        
+        <!-- Functions call/declaration -->
+        <RegExpr String="(&IDENT;)([ ]*\()" context="FunctionName" lookAhead="true" />
+        
+        <!-- Modifiers -->
+        <RegExpr String="\[private\]" context="#stay" attribute="Modifier" />
+        
+        <!-- Identifiers -->
+        <RegExpr String="&LIDENT;"                context="#stay" attribute="Lowercase Identifier" />
+        <RegExpr String="&UIDENT;"                context="#stay" attribute="Uppercase Identifier" />
+        <RegExpr String="\[([a-z]+)\]"            context="#stay" attribute="Modifier" />
+        
+        <!-- Numeric constants. -->
+        <!-- Note that they may contain underscores. -->
+        <RegExpr String="-?0[xX][0-9A-Fa-f_]+" context="#stay" attribute="Hexadecimal" />
+        <RegExpr String="-?0[oO][0-7_]+" context="#stay" attribute="Octal" />
+        <RegExpr String="-?0[bB][01_]+" context="#stay" attribute="Binary" />
+        <RegExpr String="-?&DEC;(\.&DEC;([eE][-+]?&DEC;)?|[eE][-+]?&DEC;)" context="#stay" attribute="Float" />
+        <RegExpr String="-?&DEC;" context="#stay" attribute="Decimal" />
+        
+        <!-- Explicit types -->
+        <RegExpr String=":[ ]*&IDENT;" context="#stay" attribute="Type" />
+        
+        <!-- Implicit equality tests -->
+        <RegExpr String="=&IDENT;" context="#stay" attribute="Function" />
+        
+        <!-- CryptoVerif syntax -->
+        <RegExpr String="&lt;-[R]?" context="#stay" attribute="Modifier" />
+        
+        <!-- Some operators -->
+        <RegExpr String="(=|&amp;&amp;|&lt;|&gt;|\|)" context="#stay" attribute="Modifier" />
+        
+        <IncludeRules context="Unmatched Closing Brackets" />
+      </context>
+      
+      <context name="FunctionName" attribute="Operator" lineEndContext="#pop">
+        <StringDetect context="#stay" attribute="Function" String="%1" dynamic="true"/>
+        <DetectChar context="#pop" attribute="Normal Text" char="2" dynamic="true"/>
+      </context>
+      
+      <context name="String" lineEndContext="#stay" attribute="String">
+        <DetectChar char="&quot;" context="#pop" attribute="String" />
+        <!-- A backslash at the end of a line in a string indicates  -->
+        <!-- that the string will continue on the next line:         -->
+        <RegExpr String="&ESC;|\\$" context="#stay" attribute="Escaped Characters" />
+      </context>
+      
+      <context name="Comment" lineEndContext="#stay" attribute="Comment">
+        <Detect2Chars char="*" char1=")" context="#pop" attribute="Comment" endRegion="comment"  />
+        <!-- Support for nested comments: -->
+        <Detect2Chars char="(" char1="*" context="Comment" attribute="Comment" beginRegion="comment" />
+        <!-- Strings in Ocaml comments must be well-formed: -->
+        <DetectChar char="&quot;" context="String in Comment" attribute="String in Comment" />
+        
+        <DetectSpaces />
+        <IncludeRules context="##Comments" />
+      </context>
+      
+      <context name="String in Comment" lineEndContext="#stay" attribute="String in Comment">
+        <DetectChar char="&quot;" context="#pop" attribute="String in Comment" />
+        <IncludeRules context="String" />
+      </context>
+      
+      <!-- Ocamldoc - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+      
+      <context name="Ocamldoc" lineEndContext="#stay" attribute="Ocamldoc Text">
+        <Detect2Chars char="*" char1=")" context="#pop" attribute="Comment" endRegion="comment" />
+        
+        <!-- A backslash escapes markup characters: -->
+        <RegExpr String="\\." context="#stay" attribute="Escaped Characters" />
+        
+        <!-- Support for nested comments and strings: -->
+        <StringDetect String="(**)"      context="#stay"    attribute="Comment" />
+        <StringDetect String="(**"       context="Ocamldoc" attribute="Comment" beginRegion="comment" />
+        <Detect2Chars char="(" char1="*" context="Comment"  attribute="Comment" beginRegion="comment" />
+        
+        <!-- Strings in Ocaml comments must be well-formed: -->
+        <DetectChar char="&quot;" context="String in Comment" attribute="String in Comment" />
+        
+        <!-- Nested Markup: -->
+        <DetectChar   char="["                   context="Ocamldoc Code"         attribute="Ocamldoc Markup" />
+        <Detect2Chars char="{" char1="["         context="Ocamldoc Preformatted" attribute="Ocamldoc Markup" />
+        <Detect2Chars char="{" char1="%"         context="Ocamldoc LaTeX"        attribute="Ocamldoc Markup" />
+        <Detect2Chars char="{" char1="^"         context="Nested Ocamldoc"       attribute="Ocamldoc Markup" />
+        <RegExpr String="[{]v(\s|$)"             context="Ocamldoc Verbatim"     attribute="Ocamldoc Markup" />
+        <RegExpr String="[{]b(\s|$)"             context="Ocamldoc Bold"         attribute="Ocamldoc Markup" />
+        <RegExpr String="[{]i(\s|$)"             context="Ocamldoc Italic"       attribute="Ocamldoc Markup" />
+        <RegExpr String="[{]e(\s|$)"             context="Ocamldoc Emphasised"   attribute="Ocamldoc Markup" />
+        <RegExpr String="[{][0-9]+(:&IDENT;)?\s" context="Ocamldoc Heading"      attribute="Ocamldoc Markup" />
+        <RegExpr String="[{][{]:&IDENT;[}]"      context="Ocamldoc Link"         attribute="Ocamldoc Markup" />
+        <RegExpr String="[{]!([a-z]+:)?"         context="Ocamldoc References"   attribute="Ocamldoc Markup" />
+        <RegExpr String="[{]&IDENT;(\s|$)"       context="Nested Ocamldoc"       attribute="Ocamldoc Markup" />
+        
+        <RegExpr String="@see\s*(&lt;[^&gt;]*&gt;|&quot;[^&quot;]*&quot;|'[^']*')" context="#stay" attribute="Ocamldoc Markup" />
+        <RegExpr String="@(param|raise)\s*" context="Ocamldoc Identifier" attribute="Ocamldoc Markup" />
+        <RegExpr String="@(author|before|deprecated|return|since|version)" context="#stay" attribute="Ocamldoc Markup" />
+        <RegExpr String="@&IDENT;" context="#stay" attribute="Ocamldoc Custom Tag" />
+        
+        
+        
+        <!-- A dash at the start of a line is a bullet point. -->
+        <RegExpr String="^[ &#009;]*-\s" context="#stay"  attribute="Ocamldoc Markup" column="0" />
+        
+        <IncludeRules context="Unmatched Closing Brackets" />
+      </context>
+      
+      <context name="Ocamldoc Code" lineEndContext="#stay" attribute="Operator">
+        <DetectChar char="]" context="#pop" attribute="Ocamldoc Markup" />
+        <IncludeRules context="Code" includeAttrib="true" />
+      </context>
+      
+      <context name="Ocamldoc Preformatted" lineEndContext="#stay" attribute="Operator">
+        <Detect2Chars char="]" char1="}" context="#pop" attribute="Ocamldoc Markup" />
+        <IncludeRules context="Code" includeAttrib="true" />
+      </context>
+      
+      <context name="Ocamldoc Verbatim" lineEndContext="#stay" attribute="Ocamldoc Text">
+        <Detect2Chars char="v" char1="}" context="#pop" attribute="Ocamldoc Markup" />
+      </context>
+      
+      <context name="Ocamldoc LaTeX" lineEndContext="#stay" attribute="Ocamldoc LaTeX">
+        <Detect2Chars char="%" char1="}" context="#pop" attribute="Ocamldoc Markup" />
+        <IncludeRules context="##LaTeX" />
+      </context>
+      
+      <!-- A single qualified Ocaml identifier, perhaps preceeded by whitespace. } -->
+      <context name="Ocamldoc Identifier" lineEndContext="#stay" attribute="Mismatched Brackets">
+        <RegExpr      String="&IDENT;(\.&IDENT;)*" context="#pop" attribute="Ocamldoc Link"  />
+        <Detect2Chars char="*" char1=")"           context="#pop" attribute="Mismatched Brackets" />
+        <DetectSpaces />
+      </context>
+      
+      <context name="Nested Ocamldoc" lineEndContext="#stay" attribute="Operator">
+        <DetectChar   char="}"           context="#pop" attribute="Ocamldoc Markup" />
+        <Detect2Chars char="*" char1=")" context="#pop" attribute="Mismatched Brackets" />
+        <IncludeRules context="Ocamldoc" includeAttrib="true" />
+      </context>
+      
+      <context name="Ocamldoc Bold" lineEndContext="#stay" attribute="Ocamldoc Bold">
+        <IncludeRules context="Nested Ocamldoc" />
+      </context>
+      
+      <context name="Ocamldoc Italic" lineEndContext="#stay" attribute="Ocamldoc Italic">
+        <IncludeRules context="Nested Ocamldoc" />
+      </context>
+      
+      <context name="Ocamldoc Emphasised" lineEndContext="#stay" attribute="Ocamldoc Emphasised">
+        <IncludeRules context="Nested Ocamldoc" />
+      </context>
+      
+      <context name="Ocamldoc Heading" lineEndContext="#stay" attribute="Ocamldoc Heading">
+        <IncludeRules context="Nested Ocamldoc" />
+      </context>
+      
+      <context name="Ocamldoc Link" lineEndContext="#stay" attribute="Ocamldoc Link">
+        <IncludeRules context="Nested Ocamldoc" />
+      </context>
+      
+      <!-- A list of qualified Ocaml identifiers, seperated by whitespace and ending with a } -->
+      <context name="Ocamldoc References" lineEndContext="#stay" attribute="Mismatched Brackets">
+        <DetectChar   char="}"                     context="#pop"  attribute="Ocamldoc Markup"  />
+        <Detect2Chars char="*" char1=")"           context="#pop"  attribute="Mismatched Brackets" />
+        <RegExpr      String="&IDENT;(\.&IDENT;)*" context="#stay" attribute="Ocamldoc Link"  />
+        <DetectSpaces                              context="#stay" attribute="Ocamldoc Markup" />
+      </context>
+      
+      <!-- Unmatched closing brackets- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+      
+      <context name="Unmatched Closing Brackets"  lineEndContext="#stay" attribute="Operator">
+        <Detect2Chars char="*" char1=")" context="#pop"  attribute="Mismatched Brackets" />
+        <Detect2Chars char="v" char1="}" context="#stay" attribute="Mismatched Brackets" />
+        <Detect2Chars char="]" char1="}" context="#stay" attribute="Mismatched Brackets" />
+        <Detect2Chars char="%" char1="}" context="#stay" attribute="Mismatched Brackets" />
+        <AnyChar      String="]}"        context="#stay" attribute="Mismatched Brackets" />
+      </context>
+    </contexts>
+    
+    <itemDatas>
+      <itemData name="Operator"                 defStyleNum="dsNormal"   bold="true" />
+      <itemData name="Keyword"                  defStyleNum="dsKeyword"  />
+      <itemData name="Event"                    defStyleNum="dsOthers"   italic="true" />
+      <itemData name="Definition"               defStyleNum="dsDecVal"   bold="true" />
+      <itemData name="Property"                 defStyleNum="dsKeyword"  bold="true" />
+      <itemData name="Equation"                 defStyleNum="dsChar"     bold="true" />
+      <itemData name="Reduction"                defStyleNum="dsString"   bold="true" />
+      <itemData name="Function"                 defStyleNum="dsFunction" />
+      <itemData name="Modifier"                 defStyleNum="dsOperator" bold="true" />
+      <itemData name="IO"                       defStyleNum="dsBaseN"    bold="true" italic="true" />
+      <itemData name="Type"                       defStyleNum="dsComment"  italic="true" />
+      <itemData name="Lowercase Identifier"     defStyleNum="dsNormal"   />
+      <itemData name="Uppercase Identifier"     defStyleNum="dsNormal"   italic="true" />
+      
+      <itemData name="CryptoVerif Keyword"      defStyleNum="dsOthers"  bold="true" />
+      <itemData name="CryptoVerif Unsupported Keyword"     defStyleNum="dsNormal"   bold="true" color="white" backgroundColor="red" />
+      
+      <itemData name="Decimal"                  defStyleNum="dsDecVal"   />
+      <itemData name="Hexadecimal"              defStyleNum="dsBaseN"    />
+      <itemData name="Octal"                    defStyleNum="dsBaseN"    />
+      <itemData name="Binary"                   defStyleNum="dsBaseN"    />
+      <itemData name="Float"                    defStyleNum="dsFloat"    />
+      
+      <itemData name="Character"                defStyleNum="dsChar"     />
+      <itemData name="String"                   defStyleNum="dsString"   />
+      <itemData name="Escaped Characters"       defStyleNum="dsChar"     />
+      
+      <itemData name="Directive"                defStyleNum="dsOthers"   />
+      
+      <itemData name="Comment"                  defStyleNum="dsComment"  />
+      <itemData name="String in Comment"        defStyleNum="dsComment"  bold="true" />
+      <itemData name="Mismatched Brackets"      defStyleNum="dsError"    />
+      
+      <itemData name="Ocamldoc Markup"          defStyleNum="dsOthers"   />
+      <itemData name="Ocamldoc Text"            defStyleNum="dsComment"  italic="false" />
+      <itemData name="Ocamldoc Bold"            defStyleNum="dsComment"  italic="false" bold="true" />
+      <itemData name="Ocamldoc Italic"          defStyleNum="dsComment"  italic="true"  bold="false" />
+      <itemData name="Ocamldoc Emphasised"      defStyleNum="dsComment"  italic="true"  bold="true" />
+      <itemData name="Ocamldoc Heading"         defStyleNum="dsComment"  italic="false" bold="true" underline="true" />
+      <itemData name="Ocamldoc Link"            defStyleNum="dsComment"  italic="false" underline="true" color="#0000ff" />
+      <itemData name="Ocamldoc LaTeX"           defStyleNum="dsComment"  italic="false" />
+      <itemData name="Ocamldoc Custom Tag"      defStyleNum="dsOthers"   italic="true"  />
+    </itemDatas>
+  </highlighting>
+  
+  <general>
+    <keywords casesensitive="true" />
+    <comments>
+      <comment name="multiLine" start="(*" end="*)" region ="comment" />
+    </comments>
+  </general>
+</language>
+<!-- kate: space-indent on; indent-width 2; replace-tabs on; -->
