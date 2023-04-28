@@ -13,9 +13,13 @@ This highlighter follows the syntax parsed by ProVerif 2.04 and the subset from 
 To use the syntax highlighting, place the file `proverif.xml` to 
 
 For local user       `$HOME/.local/share/org.kde.syntax-highlighting/syntax/`
+
 For Flatpak packages `$HOME/.var/app/package-name/data/org.kde.syntax-highlighting/syntax/`
+
 For Snap packages    `$HOME/snap/package-name/current/.local/share/org.kde.syntax-highlighting/syntax/`
+
 On Windows&reg;      `&amp;#37;USERPROFILE&#37;&#92;AppData&#92;Local&#92;org.kde.syntax-highlighting&#92;syntax&#92;`
+
 On macOS&reg;        `$HOME/Library/Application Support/org.kde.syntax-highlighting/syntax/`
 
 ### Linux, no cloning
