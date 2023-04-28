@@ -1,0 +1,49 @@
+free c: channel.
+
+(* Public key encryption *)
+type pkey.
+type skey.
+
+fun pk(skey): pkey.
+fun aenc(bitstring, pkey): bitstring.
+reduc forall x: bitstring, y: skey; adec(aenc(x, pk(y)), y) = x.
+
+(* Signatures *)
+type spkey.
+type sskey.
+
+fun spk(sskey): spkey.
+fun sign(bitstring, sskey): bitstring.
+reduc forall x: bitstring, y: sskey; getmess(sign(x, y)) = x.
+reduc forall x: bitstring, y: sskey; checksign(sign(x, y), spk(y)) = x.
+
+(* Shared key encryption *)
+fun senc(bitstring, bitstring): bitstring.
+reduc forall x: bitstring, y: bitstring; sdec(senc(x, y), y) = x.
+
+(**
+ * Process A of the Needham-Schroeder protocol
+ *
+ * @param pkB public key (identity) of the other honest party.
+ * @param skA private key of the party running the process.
+ *)
+let processA(pkB: pkey, skA: skey) =
+  in(c, pkX: pkey);
+  new Na: bitstring;
+  out(c, aenc((Na, pk(skA)), pkX));
+  in(c, m: bitstring);
+  let (=Na, NX: bitstring) = adec(m, skA) in
+  out(c, aenc(NX, pkX)).
+
+let processB(pkA: pkey, skB: skey) =
+  in(c, m: bitstring);
+  let (NY: bitstring, pkY: pkey) = adec(m, skB) in
+  new Nb: bitstring;
+  out(c, aenc((NY, Nb), pkY));
+  in(c, m3: bitstring);
+  if Nb = adec(m3, skB) then 0.
+
+process
+  new skA: skey; let pkA = pk(skA) in out(c, pkA);
+  new skB: skey; let pkB = pk(skB) in out(c, pkB);
+  ( (!processA(pkB, skA)) | (!processB(pkA, skB)) ) 
