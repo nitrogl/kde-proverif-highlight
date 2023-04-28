@@ -148,7 +148,7 @@
         <RegExpr String="&lt;-[R]?" context="#stay" attribute="Modifier" />
         
         <!-- Some operators -->
-        <RegExpr String="(=|&amp;&amp;|&lt;|&gt;|\|)" context="#stay" attribute="Modifier" />
+        <RegExpr String="(=|&amp;&amp;|&lt;|&gt;|\||!)" context="#stay" attribute="Modifier" />
         
         <IncludeRules context="Unmatched Closing Brackets" />
       </context>
