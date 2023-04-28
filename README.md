@@ -4,6 +4,7 @@ Syntax highlight support for the applied pi-calculus language of ProVerif in KDE
 
 ## Language support
 
+This highlighter follows the syntax parsed by ProVerif 2.04 and the subset from CryptoVerif that is currently compatible/understood by ProVerif.
 
 ## Instructions
 
