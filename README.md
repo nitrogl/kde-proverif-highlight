@@ -1,6 +1,6 @@
 # Syntax Highlighting for ProVerif files for KDE editors
 
-Syntax highlight support for the applied pi-calculus language of ProVerif in KDE editors ([Kate](https://kate-editor.org/get-it/), [KWrite](https://apps.kde.org/en-gb/kwrite/), [Kile](https://apps.kde.org/en-gb/kile/), ...).
+Syntax highlight support for the applied pi-calculus language of [ProVerif](https://bblanche.gitlabpages.inria.fr/proverif/) in KDE editors ([Kate](https://kate-editor.org/get-it/), [KWrite](https://apps.kde.org/en-gb/kwrite/), [Kile](https://apps.kde.org/en-gb/kile/), ...).
 
 ## Screenshot
 
@@ -30,7 +30,7 @@ On macOS&reg;        `$HOME/Library/Application Support/org.kde.syntax-highlight
 
 ### Linux, no cloning
 
-It might be easier to just download a copy of the file `proverif.xml` to your local directory without cloning the whole repositor.
+It might be easier to just download a copy of the file `proverif.xml` to your local directory without cloning the whole repository.
 If you have `wget` installed in your system, you can easily do
 
     mkdir -p ~/.local/share/org.kde.syntax-highlighting/syntax/
