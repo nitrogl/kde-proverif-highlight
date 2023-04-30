@@ -12,6 +12,8 @@ This highlighter follows the syntax parsed by ProVerif 2.04 and the subset from 
 
 Additionally, one can use the Objective Caml doc in the comments (that start with `(**`).
 
+It currently does not support bound names in queries.
+
 ## Instructions
 
 ### General instructions
