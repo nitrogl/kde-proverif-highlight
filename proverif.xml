@@ -15,7 +15,7 @@
 <!ENTITY DEC    "[0-9][0-9_]*">                                     <!-- Decimal digits with underscores. -->
 ]>
 <language name="ProVerif"
-          extensions="*.pv"
+          extensions="*.pv;*.pi"
           mimetype="text/x-proverif"
           section="Scientific"
           version="10"

@@ -38,5 +38,5 @@ If you have `wget` installed in your system, you can easily do
     wget https://raw.githubusercontent.com/nitrogl/kde-proverif-highlight/main/proverif.xml
 
 You may need to restart your KDE editors too see the changes.
-If you open a `.pv` file it should automatically load the correct highlighting.
+If you open a `.pv` or `.pi` file, it should automatically load the correct highlighting.
 
