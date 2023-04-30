@@ -8,11 +8,12 @@
 <!ENTITY LOWER  "a-z\300-\326\330-\337">         <!-- Lowercase Latin-1 letters. -->
 <!ENTITY UPPER  "A-Z\340-\366\370-\377">         <!-- Uppercase Latin-1 letters. -->
 <!ENTITY LETTER "&LOWER;&UPPER;">                <!-- All Latin-1 letters. -->
-<!ENTITY LIDENT "[&LOWER;_][&LETTER;0-9_']*">    <!-- Lowercase OCaml identifiers. -->
-<!ENTITY UIDENT "`?[&UPPER;][&LETTER;0-9_']*">   <!-- Uppercase OCaml identifiers. -->
-<!ENTITY IDENT  "`?[&LETTER;][&LETTER;0-9_']*">  <!-- All OCaml identifiers. -->
+<!ENTITY ALNUM  "&LOWER;&UPPER;0-9">             <!-- Alphanumeric. -->
+<!ENTITY LIDENT "[&LOWER;_][&LETTER;0-9_']*">    <!-- Lowercase identifiers. -->
+<!ENTITY UIDENT "[&UPPER;][&LETTER;0-9_']*">     <!-- Uppercase identifiers. -->
+<!ENTITY IDENT  "[&LETTER;][&ALNUM;_']*">        <!-- All identifiers. -->
+<!ENTITY DEC    "[0-9]*">                        <!-- Decimal digits. -->
 <!ENTITY ESC    "(\\[ntbr'&quot;\\]|\\[0-9]{3}|\\x[0-9A-Fa-f]{2})"> <!-- OCaml character code escapes. -->
-<!ENTITY DEC    "[0-9][0-9_]*">                                     <!-- Decimal digits with underscores. -->
 ]>
 <language name="ProVerif"
           extensions="*.pv;*.pi"
@@ -72,6 +73,7 @@
       <item>otherwise</item>
       <item>phase</item>
       <item>sync</item>
+      <item>putbegin</item>
     </list>
     <list name="IOs">
       <item>get</item>
@@ -81,8 +83,11 @@
     <list name="Modifiers">
       <item>select</item>
       <item>noselect</item>
+      <item>nounif</item>
     </list>
     <list name="CryptoVerif Keywords">
+      <item>cv_reachability</item>
+      <item>cv_real_or_random</item>
       <item>yield</item>
     </list>
     <list name="CryptoVerif Unsupported Keywords">
@@ -110,6 +115,9 @@
         <!-- Distinguish "in" keyword -->
         <RegExpr String="(in)([ ]*\()" context="Input" lookAhead="true" />
         
+        <!-- "choice" keyword has a special syntax -->
+        <RegExpr String="choice[ ]*(\[)" context="Choice" attribute="Property" beginRegion="comment" />
+        
         <!-- Identifiers and keywords. -->
         <keyword String="Definitions"             context="#stay" attribute="Definition" />
         <keyword String="Properties"              context="#stay" attribute="Property" />
@@ -126,34 +134,43 @@
         <RegExpr String="(&IDENT;)([ ]*\()" context="FunctionName" lookAhead="true" />
         
         <!-- Modifiers -->
-        <RegExpr String="\[(private|data|precise)\]" context="#stay" attribute="Modifier" />
-        <RegExpr String="\[([a-z]+)\]" context="#stay" attribute="Unknown Modifier" />
+        <RegExpr String="\[(,| |private|data|precise|reachability|pv_reachability|real_or_random|pv_real_or_random|tag|block|memberOptim|convergent|linear|hypothesis|conclusion|ignoreAFewTimes|noneSat|discardSat|instantiateSat|fullSat|removeEvents|keepEvents|noneVerif|discardVerif|instantiateVerif|fullVerif|maxSubset|induction|noInduction|keep)+\]" context="#stay" attribute="Modifier" />
+        <RegExpr String="\[([^\]]+)\]" context="#stay" attribute="Unknown Modifier" />
         
         <!-- Identifiers -->
         <RegExpr String="&LIDENT;"                context="#stay" attribute="Lowercase Identifier" />
         <RegExpr String="&UIDENT;"                context="#stay" attribute="Uppercase Identifier" />
         
-        <!-- Numeric constants. -->
-        <!-- Note that they may contain underscores. -->
-        <RegExpr String="-?0[xX][0-9A-Fa-f_]+" context="#stay" attribute="Hexadecimal" />
-        <RegExpr String="-?0[oO][0-7_]+" context="#stay" attribute="Octal" />
-        <RegExpr String="-?0[bB][01_]+" context="#stay" attribute="Binary" />
-        <RegExpr String="-?&DEC;(\.&DEC;([eE][-+]?&DEC;)?|[eE][-+]?&DEC;)" context="#stay" attribute="Float" />
-        <RegExpr String="-?&DEC;" context="#stay" attribute="Decimal" />
+        <!-- Numeric constants -->
+        <RegExpr String="0[xX][0-9A-Fa-f]+" context="#stay" attribute="Hexadecimal" />
+        <RegExpr String="0[oO][0-7]+" context="#stay" attribute="Octal" />
+        <RegExpr String="0[bB][01]+" context="#stay" attribute="Binary" />
+        <RegExpr String="&DEC;" context="#stay" attribute="Decimal" />
         
         <!-- Explicit types -->
         <RegExpr String=":[ ]*&IDENT;" context="#stay" attribute="Type" />
         
         <!-- Implicit equality tests -->
-        <RegExpr String="=&IDENT;" context="#stay" attribute="Function" />
+        <RegExpr String="([=])([&LETTER;])" context="ImplicitTest" lookAhead="true" />
+        
+        <!-- Time -->
+        <RegExpr String="@&IDENT;" context="#stay" attribute="Time" />
         
         <!-- CryptoVerif syntax -->
         <RegExpr String="&lt;-[R]?" context="#stay" attribute="Modifier" />
         
-        <!-- Some operators -->
-        <RegExpr String="(=|&amp;&amp;|&lt;|&gt;|\||!)" context="#stay" attribute="Modifier" />
+        <!-- Unary operators -->
+        <RegExpr String="[!]" context="#stay" attribute="Unary Operator" />
+        
+        <!-- Binary operators -->
+        <RegExpr String="(&amp;&amp;|&lt;|&gt;|\||-&gt;|==&gt;)" context="#stay" attribute="Binary Operator" />
         
         <IncludeRules context="Unmatched Closing Brackets" />
+      </context>
+      
+      <context name="ImplicitTest" attribute="Operator" lineEndContext="#pop">
+        <StringDetect context="#pop" attribute="Unary Operator" String="%1" dynamic="true"/>
+        <DetectChar context="#pop" attribute="Operator" char="2" dynamic="true"/>
       </context>
       
       <context name="FunctionName" attribute="Operator" lineEndContext="#pop">
@@ -161,6 +178,12 @@
         <DetectChar context="#pop" attribute="Operator" char="2" dynamic="true"/>
       </context>
       
+      <context name="Choice" attribute="Operator" lineEndContext="#pop">
+        <DetectChar char="]" context="#stay" attribute="Property" endRegion="choice"  />
+        <DetectChar char="," context="#stay" attribute="Property" endRegion="choice"  />
+        <IncludeRules context="Code" />
+      </context>
+
       <context name="Input" attribute="Operator" lineEndContext="#pop">
         <StringDetect context="#stay" attribute="IO" String="%1" dynamic="true"/>
         <DetectChar context="#pop" attribute="Operator" char="2" dynamic="true"/>
@@ -308,14 +331,17 @@
       <itemData name="Keyword"                  defStyleNum="dsKeyword"  />
       <itemData name="Event"                    defStyleNum="dsOthers"   italic="true" />
       <itemData name="Definition"               defStyleNum="dsDecVal"   bold="true" />
-      <itemData name="Property"                 defStyleNum="dsKeyword"  bold="true" />
+      <itemData name="Property"                 defStyleNum="dsOthers"   bold="true" italic="true" />
       <itemData name="Equation"                 defStyleNum="dsChar"     bold="true" />
       <itemData name="Reduction"                defStyleNum="dsString"   bold="true" />
       <itemData name="Function"                 defStyleNum="dsFunction" />
       <itemData name="Modifier"                 defStyleNum="dsOperator" bold="true" />
+      <itemData name="Unary Operator"           defStyleNum="dsOperator" bold="true" />
+      <itemData name="Binary Operator"          defStyleNum="dsOperator" bold="true" />
       <itemData name="Unknown Modifier"         defStyleNum="dsError"    bold="true" />
+      <itemData name="Time"                     defStyleNum="dsVariable" />
       <itemData name="IO"                       defStyleNum="dsBuiltIn"  />
-      <itemData name="Type"                       defStyleNum="dsComment"  italic="true" />
+      <itemData name="Type"                     defStyleNum="dsComment"  italic="true" />
       <itemData name="Lowercase Identifier"     defStyleNum="dsNormal"   />
       <itemData name="Uppercase Identifier"     defStyleNum="dsNormal"   italic="true" />
       
