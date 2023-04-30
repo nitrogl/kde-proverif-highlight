@@ -17,7 +17,7 @@
 <language name="ProVerif"
           extensions="*.pv"
           mimetype="text/x-proverif"
-          section="Sources"
+          section="Scientific"
           version="10"
           priority="10"
           kateversion="5.79"
