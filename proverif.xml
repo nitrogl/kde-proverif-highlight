@@ -123,12 +123,12 @@
         <RegExpr String="(&IDENT;)([ ]*\()" context="FunctionName" lookAhead="true" />
         
         <!-- Modifiers -->
-        <RegExpr String="\[private\]" context="#stay" attribute="Modifier" />
+        <RegExpr String="\[(private|data|precise)\]" context="#stay" attribute="Modifier" />
+        <RegExpr String="\[([a-z]+)\]" context="#stay" attribute="Unknown Modifier" />
         
         <!-- Identifiers -->
         <RegExpr String="&LIDENT;"                context="#stay" attribute="Lowercase Identifier" />
         <RegExpr String="&UIDENT;"                context="#stay" attribute="Uppercase Identifier" />
-        <RegExpr String="\[([a-z]+)\]"            context="#stay" attribute="Modifier" />
         
         <!-- Numeric constants. -->
         <!-- Note that they may contain underscores. -->
@@ -310,6 +310,7 @@
       <itemData name="Reduction"                defStyleNum="dsString"   bold="true" />
       <itemData name="Function"                 defStyleNum="dsFunction" />
       <itemData name="Modifier"                 defStyleNum="dsOperator" bold="true" />
+      <itemData name="Unknown Modifier"         defStyleNum="dsError"    bold="true" />
       <itemData name="IO"                       defStyleNum="dsBuiltIn"  />
       <itemData name="Type"                       defStyleNum="dsComment"  italic="true" />
       <itemData name="Lowercase Identifier"     defStyleNum="dsNormal"   />
