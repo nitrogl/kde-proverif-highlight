@@ -1,6 +1,6 @@
 # Syntax Highlighting for ProVerif files for KDE editors
 
-Syntax highlight support for the applied pi-calculus language of ProVerif in KDE editors.
+Syntax highlight support for the applied pi-calculus language of ProVerif in KDE editors ([Kate](https://kate-editor.org/get-it/), [KWrite](https://apps.kde.org/en-gb/kwrite/), [Kile](https://apps.kde.org/en-gb/kile/), ...).
 
 ## Screenshot
 
@@ -37,6 +37,6 @@ If you have `wget` installed in your system, you can easily do
     cd ~/.local/share/org.kde.syntax-highlighting/syntax/
     wget https://raw.githubusercontent.com/nitrogl/kde-proverif-highlight/main/proverif.xml
 
-You may need to restart your editors.
+You may need to restart your KDE editors too see the changes.
 If you open a `.pv` file it should automatically load the correct highlighting.
 
