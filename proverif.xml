@@ -50,9 +50,12 @@
       <item>axiom</item>
       <item>lemma</item>
       <item>equation</item>
+      <item>pred</item>
     </list>
     <list name="Reductions">
       <item>reduc</item>
+      <item>elimtrue</item>
+      <item>clauses</item>
     </list>
     <list name="Keywords">
       <item>process</item>
