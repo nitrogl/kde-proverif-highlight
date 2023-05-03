@@ -85,6 +85,95 @@
       <item>noselect</item>
       <item>nounif</item>
     </list>
+    <list name="Parameters">
+      <item>abbreviateClauses</item>
+      <item>abbreviateDerivation</item>
+      <item>allowDiffPatterns</item>
+      <item>attacker</item>
+      <item>displayDerivation</item>
+      <item>featureDepth</item>
+      <item>featureEvents</item>
+      <item>featureFuns</item>
+      <item>featureNames</item>
+      <item>featurePredicates</item>
+      <item>featureTables</item>
+      <item>featureWidth</item>
+      <item>eqInNames</item>
+      <item>expandSimplifyIfCst</item>
+      <item>explainDerivation</item>
+      <item>ignoreTypes</item>
+      <item>inductionLemmas</item>
+      <item>inductionQueries</item>
+      <item>interactiveSwapping</item>
+      <item>keyCompromise</item>
+      <item>maxDepth</item>
+      <item>maxHyp</item>
+      <item>movelet</item>
+      <item>movenew</item>
+      <item>nounifIgnoreAFewTimes</item>
+      <item>nounifIgnoreNtimes</item>
+      <item>preciseActions</item>
+      <item>preciseLetExpand</item>
+      <item>predicatesImplementable</item>
+      <item>privateCommOnPublicTerms</item>
+      <item>reconstructDerivation</item>
+      <item>reconstructTrace</item>
+      <item>redundancyElim</item>
+      <item>redundantHypElim</item>
+      <item>rejectChoiceTrueFalse</item>
+      <item>rejectNoSimplif</item>
+      <item>removeEventsForLemma</item>
+      <item>removeUselessClausesBeforeDisplay</item>
+      <item>saturationApplication</item>
+      <item>selFun</item>
+      <item>simpEqAll</item>
+      <item>simplifyDerivation</item>
+      <item>simplifyProcess</item>
+      <item>stopTerm</item>
+      <item>swapping</item>
+      <item>symbOrder</item>
+      <item>traceBacktracking</item>
+      <item>traceDisplay</item>
+      <item>unifyDerivation</item>
+      <item>verboseBase</item>
+      <item>verboseClauses</item>
+      <item>verboseCompleted</item>
+      <item>verboseDestructors</item>
+      <item>verboseEq</item>
+      <item>verboseLemmas</item>
+      <item>verboseRedundant</item>
+      <item>verboseRules</item>
+      <item>verboseRules</item>
+      <item>verificationApplication</item>
+    </list>
+    <list name="Parameter Values">
+      <item>active</item>
+      <item>all</item>
+      <item>approx</item>
+      <item>beginOnly</item>
+      <item>best</item>
+      <item>check</item>
+      <item>discard</item>
+      <item>explained</item>
+      <item>false</item>
+      <item>full</item>
+      <item>instantiate</item>
+      <item>interactive</item>
+      <item>long</item>
+      <item>no</item>
+      <item>nocheck</item>
+      <item>none</item>
+      <item>Nounifset</item>
+      <item>NounifsetMaxsize</item>
+      <item>passive</item>
+      <item>short</item>
+      <item>simple</item>
+      <item>strict</item>
+      <item>Term</item>
+      <item>TermMaxsize</item>
+      <item>true</item>
+      <item>trueWithoutArgsInNames</item>
+    </list>
     <list name="CryptoVerif Keywords">
       <item>cv_reachability</item>
       <item>cv_real_or_random</item>
@@ -127,6 +216,8 @@
         <keyword String="Modifiers"               context="#stay" attribute="Modifier" />
         <keyword String="Keywords"                context="#stay" attribute="Keyword" />
         <keyword String="IOs"                     context="#stay" attribute="IO" />
+        <keyword String="Parameters"              context="#stay" attribute="Parameter" />
+        <keyword String="Parameter Values"        context="#stay" attribute="Parameter Value" />
         <keyword String="CryptoVerif Keywords"    context="#stay" attribute="CryptoVerif Keyword" />
         <keyword String="CryptoVerif Unsupported Keywords"    context="#stay" attribute="CryptoVerif Unsupported Keyword" />
         
@@ -339,8 +430,10 @@
       <itemData name="Unary Operator"           defStyleNum="dsOperator" bold="true" />
       <itemData name="Binary Operator"          defStyleNum="dsOperator" bold="true" />
       <itemData name="Unknown Modifier"         defStyleNum="dsError"    bold="true" />
-      <itemData name="Time"                     defStyleNum="dsVariable" />
+      <itemData name="Time"                     defStyleNum="dsVariable" italic="false" />
       <itemData name="IO"                       defStyleNum="dsBuiltIn"  />
+      <itemData name="Parameter"                defStyleNum="dsVariable" />
+      <itemData name="Parameter Value"          defStyleNum="dsKeyword"  italic="true" />
       <itemData name="Type"                     defStyleNum="dsComment"  italic="true" />
       <itemData name="Lowercase Identifier"     defStyleNum="dsNormal"   />
       <itemData name="Uppercase Identifier"     defStyleNum="dsNormal"   italic="true" />
