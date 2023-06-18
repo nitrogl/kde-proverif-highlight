@@ -26,7 +26,7 @@ For Flatpak packages `$HOME/.var/app/package-name/data/org.kde.syntax-highlighti
 
 For Snap packages    `$HOME/snap/package-name/current/.local/share/org.kde.syntax-highlighting/syntax/`
 
-On Windows&reg;      `&amp;#37;USERPROFILE&#37;&#92;AppData&#92;Local&#92;org.kde.syntax-highlighting&#92;syntax&#92;`
+On Windows&reg;      `%USERPROFILE%\AppData\Local\org.kde.syntax-highlighting\syntax\`
 
 On macOS&reg;        `$HOME/Library/Application Support/org.kde.syntax-highlighting/syntax/`
 
