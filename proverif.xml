@@ -32,6 +32,7 @@
       <item>set</item>
       <item>const</item>
       <item>fun</item>
+      <item>letfun</item>
       <item>table</item>
     </list>
     <list name="Events">
@@ -68,6 +69,7 @@
       <item>let</item>
       <item>suchthat</item>
       <item>in</item>
+      <item>or</item>
       <item>new</item>
       <item>forall</item>
       <item>otherwise</item>
