@@ -16,7 +16,7 @@
 <!ENTITY ESC    "(\\[ntbr'&quot;\\]|\\[0-9]{3}|\\x[0-9A-Fa-f]{2})"> <!-- OCaml character code escapes. -->
 ]>
 <language name="ProVerif"
-          extensions="*.pv;*.pi"
+          extensions="*.pv;*.pi;*.pvl"
           mimetype="text/x-proverif"
           section="Scientific"
           version="10"
